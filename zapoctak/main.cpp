@@ -1,22 +1,23 @@
 #include <iostream>
-#include <chrono>
-#include <ctime>
-#include "Render.h"
+#include "TanksGameManager.h"
+#include "Exceptions.h"
 #include <fstream>
 
+#include<vector>
 
 int main(int argc, char ** argv) {
 
+
+
+
 	try {
-		std::ofstream debug_log{ "info.log" };
+		std::ofstream debug_log{ "errors.log" };
 		
 		try {
 
-			Render render;
-			render.Init();
-
-			render.Destroy();
-
+			
+			TanksGame::TanksGameManager game;
+			game.Run();
 
 
 

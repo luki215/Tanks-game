@@ -7,58 +7,54 @@
 #include "SDL.h";
 #include "Exceptions.h";
 
+namespace TanksGame {
 
 
+	class Render {
+		const int SCREEN_WIDTH;
+		const int SCREEN_HEIGHT;
+		SDL_Window* window_ = NULL;
+		SDL_Renderer* renderer_ = NULL;
 
-class Render {
+	public:
+		Render(int screen_width, int screen_height) : SCREEN_WIDTH{ screen_width }, SCREEN_HEIGHT{ screen_height } {
+			SDL_Init(SDL_INIT_EVERYTHING);
 
 
-public:
-	void Init() {
-		SDL_Init(SDL_INIT_EVERYTHING);
-		const int SCREEN_WIDTH = 1200;
-		const int SCREEN_HEIGHT = 900;
+			//The surface contained by the window
+			SDL_Surface* screenSurface = NULL;
 
-		SDL_Window* window = NULL;
+			//Initialize SDL
+			if (SDL_Init(SDL_INIT_VIDEO) < 0)
+				throw CannotInitSDLException{ SDL_GetError() };
 
-		//The surface contained by the window
-		SDL_Surface* screenSurface = NULL;
-
-		//Initialize SDL
-		if (SDL_Init(SDL_INIT_VIDEO) < 0)
-		{
-			throw CannotInitSDLException{ SDL_GetError() };
-		}
-		else
-		{
 			//Create window
-			window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-			if (window == NULL)
-			{
-				printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-			}
-			else
-			{
-				//Get window surface
-				screenSurface = SDL_GetWindowSurface(window);
+			window_ = SDL_CreateWindow("Tanks", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
-				//Fill the surface white
-				SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+			if (window_ == NULL)
+				throw CannotInitSDLException{ SDL_GetError() };
 
-				//Update the surface
-				SDL_UpdateWindowSurface(window);
 
-				//Wait two seconds
-				SDL_Delay(2000);
-			}
+			renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
+			if (renderer_ == NULL)
+				throw CannotInitSDLException{ SDL_GetError() };
+
 		}
-	}
 
-	void Destroy() {
+		SDL_Renderer * GetRenderer() {
+			return renderer_;
+		}
 
-		SDL_Quit();
-	}
-};
-	
 
+		~Render() {
+
+			SDL_DestroyRenderer(renderer_);
+			SDL_DestroyWindow(window_);
+			window_ = NULL;
+			renderer_ = NULL;
+			SDL_Quit();
+		}
+	};
+
+}
 #endif // !tanks_render_header
