@@ -22,7 +22,7 @@ int main(int argc, char ** argv) {
 
 
 		}
-		catch (TanksException &e) {
+		catch (TanksGame::TanksException &e) {
 			debug_log << e.what().c_str() << std::endl;
 		}
 		catch (std::exception &e) {
