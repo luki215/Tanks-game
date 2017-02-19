@@ -31,6 +31,10 @@ namespace TanksGame {
 			friend Color operator-(Color left, const uint_least8_t right) { (right <= left.R) ? left.R -= right : left.R = 0; ; (right <= left.G)? left.G -= right : left.G = 0; (right <= left.B)?left.B -= right : left.B = 0; return left; }
 		};
 
+		struct Point {
+			int X, Y;
+		};
+
 		struct SizeAndPos {
 			int PosX, PosY, SizeX, SizeY;
 		public:

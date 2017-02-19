@@ -156,9 +156,12 @@
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="BasicStructures.h" />
     <ClInclude Include="Exceptions.h" />
+    <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GameScreenable.h" />
+    <ClInclude Include="Landscape.h" />
     <ClInclude Include="MainScreen.h" />
     <ClInclude Include="Render.h" />
+    <ClInclude Include="Tank.h" />
     <ClInclude Include="TanksGameManager.h" />
   </ItemGroup>
   <ItemGroup>

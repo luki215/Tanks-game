@@ -6,8 +6,6 @@
 #include "Render.h"
 #include <map>
 #include <memory>
-
-
 #include "GameScreenable.h"
 
 
@@ -33,7 +31,7 @@ namespace TanksGame {
 		
 		TanksGameManager() { LoadGameScreens(); };
 		void Run() {
-			SwitchGameStatusTo(GameStatusEnum::main_screen);
+			SwitchGameStatusTo(GameStatusEnum::game);
 
 			while (status != GameStatusEnum::quit)
 			{

@@ -16,9 +16,12 @@ namespace TanksGame {
 
 
 	class CannotInitSDLException : public TanksException {
-
 	public:
 		CannotInitSDLException(std::string SDL_error) : TanksException("Cannot init SDL, Error:" + SDL_error) {}
+	};
+	class TooFewGroundPointsException : public TanksException {
+	public:
+		TooFewGroundPointsException() : TanksException("Too few point to make ground. You need at least 2") {}
 	};
 }
 

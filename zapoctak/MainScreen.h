@@ -22,7 +22,7 @@ namespace TanksGame{
 
 			void InitializeComponents() {
 
-				components.emplace_back(std::make_unique<Components::Buttons::BaseButton>(game_mngr, GameStatusEnum::main_screen, "> Play <", BasicStructres::SizeAndPos{ 800,500,180,50 }, BasicStructres::Color{ 0x42a500 }, BasicStructres::Color{ 0xffffff }));
+				components.emplace_back(std::make_unique<Components::Buttons::BaseButton>(game_mngr, GameStatusEnum::game, "> Play <", BasicStructres::SizeAndPos{ 800,500,180,50 }, BasicStructres::Color{ 0x42a500 }, BasicStructres::Color{ 0xffffff }));
 				components.emplace_back(std::make_unique<Components::Buttons::BaseButton>(game_mngr, GameStatusEnum::main_screen, "? Help ?", BasicStructres::SizeAndPos{ 800,570,180,50 }, BasicStructres::Color{ 0x42a500 }, BasicStructres::Color{ 0xffffff }));
 			}
 

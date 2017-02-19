@@ -4,8 +4,8 @@
 
 
 #include <iostream>
-#include "SDL.h";
-#include "Exceptions.h";
+#include "SDL.h"
+#include "Exceptions.h"
 #include "SDL_ttf.h"
 
 namespace TanksGame {
@@ -34,7 +34,7 @@ namespace TanksGame {
 				throw CannotInitSDLException{ SDL_GetError() };
 
 
-			renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
+			renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 			if (renderer_ == NULL)
 				throw CannotInitSDLException{ SDL_GetError() };
 
