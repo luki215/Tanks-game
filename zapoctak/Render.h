@@ -6,6 +6,7 @@
 #include <iostream>
 #include "SDL.h";
 #include "Exceptions.h";
+#include "SDL_ttf.h"
 
 namespace TanksGame {
 
@@ -18,14 +19,12 @@ namespace TanksGame {
 
 	public:
 		Render(int screen_width, int screen_height) : SCREEN_WIDTH{ screen_width }, SCREEN_HEIGHT{ screen_height } {
-			SDL_Init(SDL_INIT_EVERYTHING);
-
 
 			//The surface contained by the window
 			SDL_Surface* screenSurface = NULL;
 
 			//Initialize SDL
-			if (SDL_Init(SDL_INIT_VIDEO) < 0)
+			if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 				throw CannotInitSDLException{ SDL_GetError() };
 
 			//Create window
@@ -38,6 +37,9 @@ namespace TanksGame {
 			renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
 			if (renderer_ == NULL)
 				throw CannotInitSDLException{ SDL_GetError() };
+
+			TTF_Init();
+
 
 		}
 
@@ -52,6 +54,8 @@ namespace TanksGame {
 			SDL_DestroyWindow(window_);
 			window_ = NULL;
 			renderer_ = NULL;
+
+			TTF_Quit();
 			SDL_Quit();
 		}
 	};

@@ -13,7 +13,8 @@
 
 namespace TanksGame {
 
-	enum class GameStatusEnum{main_screen, help, player_settings, tanks_settings, game, quit};
+	//Game can't be in invalid status, invalid is just default value
+	enum class GameStatusEnum{main_screen, help, player_settings, tanks_settings, game, quit, invalid};
 
 	class TanksGameManager {
 		using screen_ptr = std::unique_ptr<Screens::GameScreenable>;
@@ -53,6 +54,7 @@ namespace TanksGame {
 
 				current_screen->Render();
 
+				SDL_SetRenderDrawBlendMode(render.GetRenderer(), SDL_BlendMode::SDL_BLENDMODE_BLEND);
 				//Update screen
 				SDL_RenderPresent(render.GetRenderer());
 			}
@@ -61,12 +63,15 @@ namespace TanksGame {
 		}
 
 		void SwitchGameStatusTo(GameStatusEnum status) {
-			this->status = status;
-			current_screen = screens.at(status).get();
+			if (status != GameStatusEnum::invalid) {
+				this->status = status;
+				current_screen = screens.at(status).get();
+
+			}
 		}
 
-		Render * GetRender() {
-			return &render;
+		Render & GetRender() {
+			return render;
 		}
 
 

@@ -16,6 +16,18 @@
     <Filter Include="Header Files\Screens">
       <UniqueIdentifier>{1c06444d-5957-421a-ac6a-7dcc9587e207}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{b8ce9080-45f6-429b-a134-7fcc03744218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Buttons">
+      <UniqueIdentifier>{64006522-177a-4000-a024-19ff725e22ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Others">
+      <UniqueIdentifier>{a00d86ca-465c-48f3-a2be-e377d644d461}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\LoaderBars">
+      <UniqueIdentifier>{4327a052-9d57-4649-85d3-544bcb70ca51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,5 +53,17 @@
     <ClInclude Include="GameScreenable.h">
       <Filter>Header Files\Screens</Filter>
     </ClInclude>
+    <ClInclude Include="BaseComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseButton.h">
+      <Filter>Header Files\Components\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicStructures.h">
+      <Filter>Header Files\Others</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="font.ttf" />
   </ItemGroup>
 </Project>

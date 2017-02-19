@@ -71,16 +71,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\brezi\OneDrive\škola\vysoká\semestr 3\C++\zapoctovy_program\zapoctak\zapoctak\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\brezi\OneDrive\škola\vysoká\semestr 3\C++\zapoctovy_program\zapoctak\zapoctak\SDL2-2.0.5\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\brezi\OneDrive\škola\vysoká\semestr 3\C++\zapoctovy_program\zapoctak\zapoctak\SDL2_ttf-2.0.14\include;C:\Users\brezi\OneDrive\škola\vysoká\semestr 3\C++\zapoctovy_program\zapoctak\zapoctak\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\brezi\OneDrive\škola\vysoká\semestr 3\C++\zapoctovy_program\zapoctak\zapoctak\SDL2_ttf-2.0.14\lib\x86;C:\Users\brezi\OneDrive\škola\vysoká\semestr 3\C++\zapoctovy_program\zapoctak\zapoctak\SDL2-2.0.5\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\brezi\OneDrive\škola\vysoká\semestr 3\C++\zapoctovy_program\zapoctak\zapoctak\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\brezi\OneDrive\škola\vysoká\semestr 3\C++\zapoctovy_program\zapoctak\zapoctak\SDL2-2.0.5\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\brezi\OneDrive\škola\vysoká\semestr 3\C++\zapoctovy_program\zapoctak\zapoctak\SDL2_ttf-2.0.14\include;C:\Users\brezi\OneDrive\škola\vysoká\semestr 3\C++\zapoctovy_program\zapoctak\zapoctak\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\brezi\OneDrive\škola\vysoká\semestr 3\C++\zapoctovy_program\zapoctak\zapoctak\SDL2_ttf-2.0.14\lib\x86;C:\Users\brezi\OneDrive\škola\vysoká\semestr 3\C++\zapoctovy_program\zapoctak\zapoctak\SDL2-2.0.5\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -94,9 +94,9 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -123,11 +123,11 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -152,11 +152,17 @@
     <ClCompile Include="TanksGameManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseButton.h" />
+    <ClInclude Include="BaseComponent.h" />
+    <ClInclude Include="BasicStructures.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="GameScreenable.h" />
     <ClInclude Include="MainScreen.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="TanksGameManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="font.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
