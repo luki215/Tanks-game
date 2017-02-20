@@ -23,6 +23,10 @@ namespace TanksGame {
 	public:
 		TooFewGroundPointsException() : TanksException("Too few point to make ground. You need at least 2") {}
 	};
+	class CannotLoadFontException : public TanksException {
+	public:
+		CannotLoadFontException(std::string font) : TanksException("Cannot load font: "+ font) {}
+	};
 }
 
 

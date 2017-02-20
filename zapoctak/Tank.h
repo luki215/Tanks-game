@@ -2,22 +2,30 @@
 #ifndef tanks_components_game_tank_header
 #define tanks_components_game_tank_header
 
-#include "TanksGameManager.h"
+#include "TanksAppManager.h"
 #include "Render.h"
-#include "SDL.h"
-#include "BaseComponent.h"
+#include <SFML/Window.hpp>
+#include "GameBaseComponent.h"
 #include "BasicStructures.h"
+#include "GameManager.h"
 namespace TanksGame {
 	namespace Components {
 		namespace Game {
 
-			class Tank : public BaseComponent {
+			class Tank : public GameBaseComponent {
 			private:
 				BasicStructres::Point position{ 40, 850 };
 
-				int_least8_t angle = -30;
-				int_least8_t canon_angle = 20;
+				int_least8_t angle = 0;
+				int_least8_t canon_angle = 0;
+				uint_least8_t speed = 2;
 				BasicStructres::Color color{0x000000};
+			
+				void MoveLeft() {
+				}
+				void MoveRight(){
+
+				}
 
 			public:
 				using s_uint = uint_least16_t;
@@ -31,50 +39,51 @@ namespace TanksGame {
 
 				// Inherited via BaseComponent
 				virtual void Render() override {
-
-					SDL_Texture * target_before = SDL_GetRenderTarget(renderer);
-
-					SDL_SetRenderTarget(renderer, NULL);
-					SDL_Texture * tank_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 50, 50);
-					SDL_SetTextureBlendMode(tank_texture, SDL_BlendMode::SDL_BLENDMODE_BLEND);
-					SDL_Texture * canon_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 6, 30);
-					SDL_SetRenderDrawColor(renderer, color.R, color.B, color.G, color.A);
-
-					//create canon
-					SDL_SetRenderTarget(renderer, canon_texture);
-					SDL_RenderFillRect(renderer, NULL);
 					
 
-					//render canon to tank
-					SDL_SetRenderTarget(renderer, tank_texture);
-					SDL_Rect destination = { 22, 0, 6, 30 };
-					SDL_Point rot_center{ 3, 20 };
-					//SDL_RenderCopy(renderer, canon_texture, NULL, &destination);
-					SDL_RenderCopyEx(renderer, canon_texture, NULL, &destination, canon_angle, &rot_center, SDL_FLIP_NONE);
+					sf::RectangleShape tank(sf::Vector2f(0, 0));
+					tank.setSize(sf::Vector2f(40, 20));
+					tank.setFillColor(color);
+					tank.setOrigin(20, 20);
 
-					//create tank					
-					SDL_Rect tank = { 5, 30, 40, 20 };
-					SDL_RenderFillRect(renderer, &tank);
+					tank.setPosition(position.X, position.Y);
+					tank.setRotation(angle);
+					window.draw(tank);
 
-					
-					//render to image
-					destination = SDL_Rect{ position.X - 20, position.Y - 50, 50, 50 };
-					rot_center = SDL_Point{ 25, 50 };
-					SDL_SetRenderTarget(renderer, target_before);
-					//SDL_RenderCopy(renderer, tank_texture, NULL, &destination);
-					SDL_RenderCopyEx(renderer, tank_texture, NULL, &destination, angle, &rot_center, SDL_FLIP_NONE);
+					sf::RectangleShape canon(sf::Vector2f(0, 0));
+					canon.setSize(sf::Vector2f(6, 35));
+					canon.setFillColor(color);
 
-					SDL_DestroyTexture(canon_texture);
-					SDL_DestroyTexture(tank_texture);
+					sf::Transform canon_transform;
+					canon.setOrigin(3, 35);
+					canon_transform.translate(sf::Vector2f(position.X, position.Y - 10));
+				
+					sf::Transform rotation;
+					rotation.rotate(angle, sf::Vector2f(0, 10));
+					sf::Vector2f positionAfterRotation = rotation.transformPoint(sf::Vector2f(0, 10));
+					canon_transform.rotate(angle, positionAfterRotation);
 
 
-/*
-
-	*/			};
-
-				virtual void ProcessEvent(SDL_Event & e) override {
+					canon_transform.rotate(canon_angle, sf::Vector2f(0, -10));
+				
+					window.draw(canon, canon_transform);
 				};
-				Tank(TanksGameManager & game_mngr) :BaseComponent(game_mngr) { };
+
+				virtual void ProcessEvent(sf::Event & e) override {
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+						canon_angle-=2;
+					}
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+						canon_angle+=2;
+					}
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+						MoveLeft();
+					}
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+						MoveRight();
+					}
+				};
+				Tank(TanksAppManager & app_mngr, GameManager & game_manager ) :GameBaseComponent(app_mngr, game_manager) { };
 
 			};
 

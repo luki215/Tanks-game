@@ -2,7 +2,6 @@
 #ifndef tanks_basic_structures_header
 #define tanks_basic_structures_header
 
-#include "SDL.h"
 namespace TanksGame {
 	namespace BasicStructres {
 
@@ -24,7 +23,7 @@ namespace TanksGame {
 				B = static_cast<uint_least8_t>(hex & 0x000000ff);
 				A = alpha;
 			}
-			operator SDL_Color() const { return SDL_Color{ R, G, B, A }; }
+			operator sf::Color() const { return sf::Color{ R, G, B, A }; }
 			friend Color operator+(Color left, const uint_least8_t right) { (left.R > 255 - right) ? left.R = 255 : left.R += right;
 																			(left.G > 255 - right) ? left.G = 255 : left.G += right;
 																			(left.B > 255 - left.B) ? left.B = 255 : left.B += right; return left; }

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "TanksGameManager.h"
+#include "TanksAppManager.h"
 #include "Exceptions.h"
 #include <fstream>
 
@@ -16,7 +16,7 @@ int main(int argc, char ** argv) {
 		try {
 
 			
-			TanksGame::TanksGameManager game;
+			TanksGame::TanksAppManager game;
 			game.Run();
 
 

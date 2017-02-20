@@ -2,46 +2,49 @@
 #ifndef tanks_game_screen_header
 #define tanks_game_screen_header
 
+#include <SFML/Window.hpp>
 #include "GameScreenable.h"
-#include "TanksGameManager.h"
-#include "Render.h"
-#include "SDL.h"
+#include "TanksAppManager.h"
 #include "BaseComponent.h"
 #include "BaseButton.h"
 #include "Landscape.h"
 #include "Tank.h"
-#include <vector>
+#include <map>
 #include <memory>
-
+#include "GameManager.h"
 
 namespace TanksGame {
 	namespace Screens {
+
+		
+
 		class GameScreen : public GameScreenable {
 		private:
-			TanksGame::TanksGameManager & game_mngr;
-			TanksGame::Render & render;
-			std::vector<std::unique_ptr<Components::BaseComponent>> components;
-
+			enum class GameStatusEnum{player_move, shot, collision, pause};
+			TanksGame::TanksAppManager & app_mngr;
+			sf::RenderWindow & window;
+			std::map<std::string, std::unique_ptr<Components::BaseComponent>> components;
+			GameManager manager{};
 			void InitializeComponents() {
-				components.emplace_back(std::make_unique<Components::Game::Landscape>(game_mngr));
-				components.emplace_back(std::make_unique<Components::Game::Tank>(game_mngr));
+				components.emplace("landscape", std::make_unique<Components::Game::Landscape>(app_mngr, manager));
+				components.emplace("tank", std::make_unique<Components::Game::Tank>(app_mngr, manager));
+
 			}
 
 		public:
 			// Inherited via GameScreenable
 			virtual void Render() override {
 				for (auto & component : components) {
-					component->Render();
+					component.second->Render();
 				}
 			};
-			virtual void HandleEvent(SDL_Event & e) override {
+			virtual void HandleEvent(sf::Event & e) override {
 				for (auto & component : components) {
-					component->ProcessEvent(e);
+					component.second->ProcessEvent(e);
 				}
 			}
-			GameScreen(TanksGame::TanksGameManager * game_manager) :game_mngr{ *game_manager }, render{ game_manager->GetRender() } {
+			GameScreen(TanksGame::TanksAppManager & game_manager) :app_mngr{ game_manager }, window{ game_manager.GetWindow() } {
 				InitializeComponents();
-
 			};
 		};
 	}

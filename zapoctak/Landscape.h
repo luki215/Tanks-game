@@ -3,17 +3,18 @@
 #define tanks_components_game_landscape_header
 
 #include "GameScreenable.h"
-#include "TanksGameManager.h"
+#include "TanksAppManager.h"
 #include "Render.h"
-#include "SDL.h"
-#include "BaseComponent.h"
+#include <SFML/Window.hpp>
+#include "GameBaseComponent.h"
 #include "BasicStructures.h"
 #include <vector>
+#include "Exceptions.h"
 namespace TanksGame {
 	namespace Components {
 		namespace Game {
 
-			class Landscape : public BaseComponent {
+			class Landscape : public GameBaseComponent {
 				using Point = BasicStructres::Point;
 				std::vector<Point> ground{ Point{0, 850}, Point{80, 850}, Point{200, 700}, Point{400, 880}, Point{ 450, 800 }, Point{ 500, 850 }, Point{ 600, 850 }, Point{ 700, 500 }, Point{ 750, 600 }, Point{ 800, 550 }, Point{ 950, 800 }, Point{ 1280, 700 } };
 
@@ -21,21 +22,29 @@ namespace TanksGame {
 			public:
 				// Inherited via BaseComponent
 				virtual void Render() override {
-
+					window.clear(sf::Color::White);
 					auto color = BasicStructres::Color{ 0x00b712 };
-					SDL_SetRenderDrawColor(renderer, color.R, color.G, color.B, color.A);
+					sf::ConvexShape convex;
+					convex.setPointCount(ground.size() + 2);
+					convex.setFillColor(color);
+
 
 					if (ground.size() < 2)
 						throw TooFewGroundPointsException();
-					auto prev_point = ground.begin();
-					for (auto && point = ground.begin() + 1; point != ground.end(); ++point) {
-						SDL_RenderDrawLine(renderer, prev_point->X, prev_point->Y, point->X, point->Y);
-						prev_point = point;
+					//TODO Find clever way to draw ground properly
+					convex.setPoint(0, sf::Vector2f(-2000, 5000));
+					int i = 1;
+					for (auto && point = ground.begin(); point != ground.end(); ++point, ++i) {
+						convex.setPoint(i, sf::Vector2f(point->X, point->Y));
 					}
+
+					convex.setPoint(i, sf::Vector2f(3000, 5000));
+
+					window.draw(convex);
 				}
 
-				virtual void ProcessEvent(SDL_Event & e) override {};
-				Landscape(TanksGameManager & game_mngr) :BaseComponent(game_mngr) { };
+				virtual void ProcessEvent(sf::Event & e) override {};
+				Landscape(TanksAppManager & app_mngr, GameManager game_manager) :GameBaseComponent(app_mngr, game_manager) { };
 
 			};
 

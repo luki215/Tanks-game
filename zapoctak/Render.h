@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #ifndef tanks_render_header
 #define tanks_render_header
 
@@ -62,3 +62,4 @@ namespace TanksGame {
 
 }
 #endif // !tanks_render_header
+*/
