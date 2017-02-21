@@ -23,23 +23,21 @@ namespace TanksGame {
 			enum class GameStatusEnum{player_move, shot, collision, pause};
 			TanksGame::TanksAppManager & app_mngr;
 			sf::RenderWindow & window;
-			std::map<std::string, std::unique_ptr<Components::BaseComponent>> components;
 			GameManager manager{};
-			void InitializeComponents() {
-				components.emplace("landscape", std::make_unique<Components::Game::Landscape>(app_mngr, manager));
-				components.emplace("tank", std::make_unique<Components::Game::Tank>(app_mngr, manager));
-
+			void InitializeComponents() {				
+				manager.InsertComponent("landscape", std::make_unique<Components::Game::Landscape>(app_mngr, manager));
+				manager.InsertComponent("tank", std::make_unique<Components::Game::Tank>(app_mngr, manager));
 			}
 
 		public:
 			// Inherited via GameScreenable
 			virtual void Render() override {
-				for (auto & component : components) {
+				for (auto & component : manager.GetComponents()) {
 					component.second->Render();
 				}
 			};
 			virtual void HandleEvent(sf::Event & e) override {
-				for (auto & component : components) {
+				for (auto & component : manager.GetComponents()) {
 					component.second->ProcessEvent(e);
 				}
 			}

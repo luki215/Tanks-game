@@ -8,6 +8,7 @@
 #include "GameBaseComponent.h"
 #include "BasicStructures.h"
 #include "GameManager.h"
+#include "Landscape.h"
 namespace TanksGame {
 	namespace Components {
 		namespace Game {
@@ -15,16 +16,32 @@ namespace TanksGame {
 			class Tank : public GameBaseComponent {
 			private:
 				BasicStructres::Point position{ 40, 850 };
-
 				int_least8_t angle = 0;
 				int_least8_t canon_angle = 0;
 				uint_least8_t speed = 2;
-				BasicStructres::Color color{0x000000};
 			
+
+
 				void MoveLeft() {
+					int position_y, slope;
+					Landscape & landscape = dynamic_cast<Landscape &>(manager.GetComponent("landscape"));
+					
+					landscape.GetYAndSlopeInPoint(position.X-speed, position_y, slope);
+					angle = slope;
+					position.Y = position_y;
+					position.X = position.X - speed;
 				}
 				void MoveRight(){
 
+					int position_y, slope;
+					Landscape & landscape = dynamic_cast<Landscape &>(manager.GetComponent("landscape"));
+					landscape.GetYAndSlopeInPoint(position.X + speed, position_y, slope);
+					angle = slope;
+					position.Y = position_y;
+					position.X = position.X + speed;
+				}
+				void Fire() {
+					//manager.InsertComponent("fireball")
 				}
 
 			public:
@@ -33,7 +50,7 @@ namespace TanksGame {
 				s_uint max_fuel;
 				s_uint max_speed;
 				s_uint max_hill_slope;
-
+				BasicStructres::Color color{ 0x000000 };
 
 
 
@@ -81,6 +98,9 @@ namespace TanksGame {
 					}
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 						MoveRight();
+					}
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+						Fire();
 					}
 				};
 				Tank(TanksAppManager & app_mngr, GameManager & game_manager ) :GameBaseComponent(app_mngr, game_manager) { };
