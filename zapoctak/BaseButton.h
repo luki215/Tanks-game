@@ -3,7 +3,7 @@
 #ifndef tanks_base_button_header
 #define tanks_base_button_header
 
-#include "BaseComponent.h";
+#include "BaseComponent.h"
 #include <SFML/Window.hpp>
 #include <string>
 #include "TanksAppManager.h"

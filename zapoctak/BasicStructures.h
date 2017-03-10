@@ -2,6 +2,7 @@
 #ifndef tanks_basic_structures_header
 #define tanks_basic_structures_header
 
+#include <SFML/Window.hpp>
 namespace TanksGame {
 	namespace BasicStructres {
 
@@ -33,6 +34,15 @@ namespace TanksGame {
 		struct Point {
 			int X, Y;
 		};
+		struct Pointf {
+			float X, Y;
+			Pointf() :X(0), Y(0) {};
+			Pointf(float X, float Y) :X(X), Y(Y) {};
+			Pointf(Point & point) :X(point.X), Y(point.Y) {};
+			Pointf(Point && point) :X(point.X), Y(point.Y) {};
+			Pointf(sf::Vector2f && point) :X(point.x), Y(point.y) {};
+			Pointf(sf::Vector2f & point) :X(point.x), Y(point.y) {};
+		};
 
 		struct SizeAndPos {
 			int PosX, PosY, SizeX, SizeY;
@@ -40,6 +50,8 @@ namespace TanksGame {
 			SizeAndPos(int PosX, int PosY, int SizeX, int SizeY) : PosX{ PosX }, PosY{ PosY }, SizeX{ SizeX }, SizeY{ SizeY } {};
 			SizeAndPos() : PosX{ 0 }, PosY{ 0 }, SizeX{ 0 }, SizeY{ 0 } {};
 		};
+	
+
 	}
 
 }

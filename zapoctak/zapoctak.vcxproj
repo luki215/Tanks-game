@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TanksAppManager.cpp" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="BasicStructures.h" />
     <ClInclude Include="Exceptions.h" />
+    <ClInclude Include="Fireball.h" />
     <ClInclude Include="GameBaseComponent.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameScreen.h" />

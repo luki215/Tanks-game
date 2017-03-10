@@ -39,6 +39,9 @@
     <ClCompile Include="TanksAppManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Exceptions.h">
@@ -76,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="TanksAppManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Fireball.h">
+      <Filter>Header Files\Components\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

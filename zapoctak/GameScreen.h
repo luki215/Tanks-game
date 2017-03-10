@@ -16,11 +16,15 @@
 namespace TanksGame {
 	namespace Screens {
 
-		
+		/*TODO: New class player, it has property TankProperties, where all tank settings of player will be stored. pointer to this var will be sent to each tank instance
+			and then in HandleEvent tank components will be checked, if they belong to current player. 
+
+			Then these settings save to file. 
+			
+		*/
 
 		class GameScreen : public GameScreenable {
 		private:
-			enum class GameStatusEnum{player_move, shot, collision, pause};
 			TanksGame::TanksAppManager & app_mngr;
 			sf::RenderWindow & window;
 			GameManager manager{};
@@ -32,18 +36,31 @@ namespace TanksGame {
 		public:
 			// Inherited via GameScreenable
 			virtual void Render() override {
-				for (auto & component : manager.GetComponents()) {
-					component.second->Render();
+				int i = 0;
+				for (auto && it = manager.GetComponents().begin(); it != manager.GetComponents().end(); ++it ) {
+					int count = manager.GetComponents().size();
+					it->second->Render();
+					if (manager.GetComponents().size() != count) {
+						it = manager.GetComponents().begin() + i;
+						if (it == manager.GetComponents().end())
+							break;
+					}
+					i++;
 				}
 			};
 			virtual void HandleEvent(sf::Event & e) override {
-				for (auto & component : manager.GetComponents()) {
-					component.second->ProcessEvent(e);
+				int i = 0;
+				for (auto && it = manager.GetComponents().begin(); it != manager.GetComponents().end(); ++it) {
+					int count = manager.GetComponents().size();
+					it->second->ProcessEvent(e);
+					if (manager.GetComponents().size() != count) it = manager.GetComponents().begin() + i+1;
+					i++;
 				}
 			}
 			GameScreen(TanksGame::TanksAppManager & game_manager) :app_mngr{ game_manager }, window{ game_manager.GetWindow() } {
 				InitializeComponents();
 			};
+
 		};
 	}
 }

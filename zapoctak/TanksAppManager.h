@@ -30,12 +30,13 @@ namespace TanksGame {
 		
 
 	public:
-		
+		static const unsigned int scr_height = 900;
+		static const unsigned int scr_width = 1280;
 		TanksAppManager() { 
 
 			sf::ContextSettings settings;
 			settings.antialiasingLevel = 8;
-			window.create( sf::VideoMode{ 1280, 900 }, "Tanks", sf::Style::Close, settings ); 
+			window.create( sf::VideoMode{ scr_width, scr_height }, "Tanks", sf::Style::Close, settings ); 
 			LoadGameScreens(); 
 		};
 		void Run() {
