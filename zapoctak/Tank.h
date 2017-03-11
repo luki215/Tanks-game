@@ -10,16 +10,35 @@
 #include "GameManager.h"
 #include "Landscape.h"
 #include "Fireball.h"
+#include <map>
 namespace TanksGame {
 	namespace Components {
 		namespace Game {
 
+			struct TankProperties {
+				using s_uint = uint_least16_t;
+				uint_least8_t player;
+				s_uint max_health;
+				s_uint health;
+				s_uint max_fuel;
+				s_uint max_speed;
+				s_uint max_strength;
+				BasicStructres::Color color;
+				int init_x_position;
+				std::map<std::string, s_uint> fireballs;
+
+			};
+
 			class Tank : public GameBaseComponent {
 			private:
-				BasicStructres::Point position{ 40, 850 };
+				BasicStructres::Point position;
 				int_least8_t angle = 0;
 				int_least16_t canon_angle = 0;
-				uint_least16_t strength = 50;
+				uint_least16_t strength;
+				uint_least16_t health;
+
+				std::map<std::string, uint_least16_t> fireballs;
+
 				std::array<int, TanksAppManager::scr_width + 1> collision_line;
 
 				void MoveLeft() {
@@ -98,15 +117,13 @@ namespace TanksGame {
 
 			public:
 				using s_uint = uint_least16_t;
-				s_uint health;
+				s_uint max_health;
 				s_uint max_fuel;
-				s_uint max_speed = 2;
-				s_uint max_strength = 100;
-				s_uint max_hill_slope;
-
-				BasicStructres::Color color{ 0x000000 };
-
-
+				s_uint max_speed;
+				s_uint max_strength;
+				uint_least8_t player;
+				BasicStructres::Color color;
+				
 
 				// Inherited via BaseComponent
 				virtual void Render() override {					
@@ -126,7 +143,7 @@ namespace TanksGame {
 				};
 
 				virtual void ProcessEvent(sf::Event & e) override {
-					if (manager.CurrentStatus() == GameManager::GameStatusEnum::player_move) {
+					if ((manager.CurrentPlayer() == player) && (manager.CurrentStatus() == GameManager::GameStatusEnum::player_move)) {
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 							if (canon_angle >= -88)
 								canon_angle -= 2;
@@ -195,7 +212,23 @@ namespace TanksGame {
 
 					return  collision_line;
 				};
-				Tank(TanksAppManager & app_mngr, GameManager & game_manager ) :GameBaseComponent(app_mngr, game_manager) {};
+				Tank(TanksAppManager & app_mngr, GameManager & game_manager, TankProperties properties) :GameBaseComponent(app_mngr, game_manager),
+					max_fuel{ properties.max_fuel },
+					max_health{ properties.max_health },
+					health{ properties.health },
+					max_speed{ properties.max_speed },
+					max_strength{ properties.max_strength },
+					strength{ (uint_least16_t) (properties.max_strength / 2)},
+					player{ properties.player },
+					color{ properties.color },
+					fireballs{ properties.fireballs }					
+					{	int position_y, slope;
+						Landscape & landscape = dynamic_cast<Landscape &>(manager.GetComponent("landscape"));
+						landscape.GetYAndSlopeInPoint(properties.init_x_position, position_y, slope);
+						angle = slope;
+						position.Y = position_y;
+						position.X = properties.init_x_position;
+				};
 
 				virtual std::string Type() override {
 					return "Tank";

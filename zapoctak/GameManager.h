@@ -52,8 +52,11 @@ namespace TanksGame {
 		GameStatusEnum CurrentStatus() { return current_status; }
 		void SetCurrentStatus(GameStatusEnum status) {
 			if (status == GameStatusEnum::player_move)
-				current_player = (current_player + 1) % players_count+1;
+				current_player = ((current_player) % players_count)+1;
 			current_status = status;
+		}
+		uint_least8_t CurrentPlayer() const {
+			return current_player;
 		}
 
 	private:

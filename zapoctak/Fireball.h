@@ -12,6 +12,12 @@
 namespace TanksGame {
 	namespace Components {
 		namespace Game {
+
+			class FireballFactory {
+
+			};
+
+
 			class Fireball : public GameBaseComponent {
 				using Pointf = BasicStructres::Pointf;
 			private:

@@ -30,7 +30,24 @@ namespace TanksGame {
 			GameManager manager{};
 			void InitializeComponents() {				
 				manager.InsertComponent("landscape", std::make_unique<Components::Game::Landscape>(app_mngr, manager));
-				manager.InsertComponent("tank", std::make_unique<Components::Game::Tank>(app_mngr, manager));
+
+				auto tank_1_prop = Components::Game::TankProperties{};
+				tank_1_prop.player = 1;
+				tank_1_prop.color = 0x000000;
+				tank_1_prop.init_x_position = 30;
+				tank_1_prop.fireballs.emplace("Small", 30);
+				tank_1_prop.health = 100;
+				tank_1_prop.max_fuel = 100;
+				tank_1_prop.max_speed = 2;
+				tank_1_prop.max_strength = 100;
+
+				auto tank_2_prop = tank_1_prop;
+				tank_2_prop.player = 2;
+				tank_2_prop.init_x_position = 900;
+				tank_2_prop.color = 0xff0000;
+
+				manager.InsertComponent("tank", std::make_unique<Components::Game::Tank>(app_mngr, manager, tank_1_prop));
+				manager.InsertComponent("tank2", std::make_unique<Components::Game::Tank>(app_mngr, manager, tank_2_prop));
 			}
 
 		public:
