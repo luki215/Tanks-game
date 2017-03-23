@@ -14,7 +14,7 @@
 namespace TanksGame {
 
 	//Game can't be in invalid status, invalid is just default value
-	enum class AppStatusEnum{main_screen, help, player_settings, tanks_settings, game, invalid};
+	enum class AppStatusEnum{main_screen, help, load_game, new_game, tanks_settings, game, invalid};
 
 	class TanksAppManager {
 		using screen_ptr = std::unique_ptr<Screens::GameScreenable>;
@@ -40,7 +40,7 @@ namespace TanksGame {
 			LoadGameScreens(); 
 		};
 		void Run() {
-			SwitchGameStatusTo(AppStatusEnum::game);
+			SwitchGameStatusTo(AppStatusEnum::main_screen);
 
 
 			// run the program as long as the window is open

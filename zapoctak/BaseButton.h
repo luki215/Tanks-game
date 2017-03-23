@@ -9,6 +9,7 @@
 #include "TanksAppManager.h"
 #include "BasicStructures.h"
 #include "Exceptions.h"
+#include <functional>
 
 namespace TanksGame {
 	namespace Components {
@@ -46,7 +47,7 @@ namespace TanksGame {
 				using SizeAndPos = BasicStructres::SizeAndPos;
 			protected:
 				std::string text = "Button";
-				AppStatusEnum action = AppStatusEnum::invalid;
+				std::function<void()> action;
 				SizeAndPos position = SizeAndPos{ 0,0,80,30 };
 				Color background = Color{ 0xd3, 0xd3, 0xd3 };
 				Color render_background = background;
@@ -57,7 +58,7 @@ namespace TanksGame {
 				virtual void OnMouseDown(sf::Event &e) { render_background = background - 20; }
 				virtual void OnMouseUp(sf::Event &e) {
 					render_background = background + 20;
-					app_mngr.SwitchGameStatusTo(action);
+					action();
 				}
 
 
@@ -103,10 +104,11 @@ namespace TanksGame {
 
 				};
 
-				BaseButton(TanksAppManager & app_mngr) :BaseButton(app_mngr, AppStatusEnum::invalid, "Button", SizeAndPos{ 0, 0, 80, 30 }, Color{ 0xd3, 0xd3, 0xd3 }, Color{ 0, 0, 0 } ) {};
-				BaseButton(TanksAppManager & app_mngr, AppStatusEnum action, std::string text, SizeAndPos position) :BaseButton(app_mngr, action, text, position, Color{ 0xd3, 0xd3, 0xd3 }, Color{ 0, 0, 0 }) { };
-				BaseButton(TanksAppManager & app_mngr, AppStatusEnum action, std::string text, SizeAndPos position, Color background) :BaseButton(app_mngr, action, text, position, background, Color{ 0, 0, 0 }) { };
-				BaseButton(TanksAppManager & app_mngr, AppStatusEnum action, std::string text, SizeAndPos position, Color background, Color text_color) :BaseComponent(app_mngr), action{ action }, text{ text }, position{ position }, background{ background }, text_color{ text_color } {
+				
+				BaseButton(TanksAppManager & app_mngr) :BaseButton(app_mngr, []() {}, "Button", SizeAndPos{ 0, 0, 80, 30 }, Color{ 0xd3, 0xd3, 0xd3 }, Color{ 0, 0, 0 } ) {};
+				BaseButton(TanksAppManager & app_mngr, std::function<void()> onclick_action, std::string text, SizeAndPos position) :BaseButton(app_mngr, onclick_action, text, position, Color{ 0xd3, 0xd3, 0xd3 }, Color{ 0, 0, 0 }) { };
+				BaseButton(TanksAppManager & app_mngr, std::function<void()> onclick_action, std::string text, SizeAndPos position, Color background) :BaseButton(app_mngr, onclick_action, text, position, background, Color{ 0, 0, 0 }) { };
+				BaseButton(TanksAppManager & app_mngr, std::function<void()> onclick_action, std::string text, SizeAndPos position, Color background, Color text_color) :BaseComponent(app_mngr), action{ onclick_action }, text{ text }, position{ position }, background{ background }, text_color{ text_color } {
 					
 					if (!font.loadFromFile("font.ttf"))
 					{
