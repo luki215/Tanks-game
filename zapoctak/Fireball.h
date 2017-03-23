@@ -106,13 +106,6 @@ namespace TanksGame {
 					ball.setFillColor(sf::Color::Black);
 
 					window.draw(ball);
-
-					sf::RectangleShape finish(sf::Vector2f(10, 10));
-
-					finish.setPosition(sf::Vector2f(collision_point.X - 5, collision_point.Y - 5));
-					finish.setFillColor(sf::Color::Red);
-
-					window.draw(finish);
 					
 					//if colided
 					if ( 
