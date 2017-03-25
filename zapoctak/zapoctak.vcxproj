@@ -150,11 +150,13 @@
   <ItemGroup>
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainScreen.cpp" />
     <ClCompile Include="TanksAppManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseButton.h" />
     <ClInclude Include="BaseComponent.h" />
+    <ClInclude Include="BasicStaticScreen.h" />
     <ClInclude Include="BasicStructures.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Fireball.h" />
@@ -164,6 +166,8 @@
     <ClInclude Include="GameScreenable.h" />
     <ClInclude Include="Landscape.h" />
     <ClInclude Include="MainScreen.h" />
+    <ClInclude Include="NewGameScreen.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Tank.h" />
     <ClInclude Include="TanksAppManager.h" />
   </ItemGroup>
