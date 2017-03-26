@@ -3,15 +3,17 @@
 #define tanks_components_game_player_header
 	
 #include <string>
-#include "Tank.h"
+#include "TankProperties.h"
 namespace TanksGame {
 	namespace Components {
 		namespace Game {
 
-			class Player {
+			struct Player {
+			public:
 				std::string name;
 				TankProperties tank;
 				int money;
+				Player(std::string name, TankProperties tank_prop, int money) : name{ name }, tank{ tank_prop }, money{ money } {};
 			};
 		}
 	}

@@ -10,25 +10,11 @@
 #include "GameManager.h"
 #include "Landscape.h"
 #include "Fireball.h"
-#include <map>
+#include "TankProperties.h"
+
 namespace TanksGame {
 	namespace Components {
 		namespace Game {
-
-			struct TankProperties {
-				using s_uint = uint_least16_t;
-				uint_least8_t player;
-				s_uint max_health;
-				s_uint health;
-				s_uint max_fuel;
-				s_uint max_speed;
-				s_uint max_strength;
-				BasicStructres::Color color;
-				int init_x_position;
-				std::map<std::string, s_uint> fireballs;
-
-			};
-
 			class Tank : public GameBaseComponent {
 			private:
 				BasicStructres::Point position;

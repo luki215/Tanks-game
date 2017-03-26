@@ -31,7 +31,7 @@ namespace TanksGame {
 			void InitializeComponents() {				
 				manager.InsertComponent("landscape", std::make_unique<Components::Game::Landscape>(app_mngr, manager));
 
-				auto tank_1_prop = Components::Game::TankProperties{};
+				auto tank_1_prop = Components::Game::TankProperties{1, 100};
 				tank_1_prop.player = 1;
 				tank_1_prop.color = 0x000000;
 				tank_1_prop.init_x_position = 30;
@@ -74,7 +74,7 @@ namespace TanksGame {
 					i++;
 				}
 			}
-			GameScreen(TanksGame::TanksAppManager & game_manager) :app_mngr{ game_manager }, window{ game_manager.GetWindow() } {
+			GameScreen(TanksGame::TanksAppManager &  game_manager) :app_mngr{ game_manager }, window{ game_manager.GetWindow() } {
 				InitializeComponents();
 			};
 

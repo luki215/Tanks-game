@@ -33,6 +33,7 @@ namespace TanksGame {
 					component->ProcessEvent(e);
 				}
 			}
+			std::vector<std::unique_ptr<Components::BaseComponent>> & GetComponents() { return components; }
 			BasicStaticScreen(TanksGame::TanksAppManager & game_manager) :app_mngr{ game_manager }, window{ game_manager.GetWindow() } {};
 			virtual ~BasicStaticScreen() {};
 		};

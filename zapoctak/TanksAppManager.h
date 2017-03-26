@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include "GameScreenable.h"
+#include "Player.h"
 
 
 /* Handles whole program*/
@@ -26,6 +27,8 @@ namespace TanksGame {
 		screens_map screens;
 
 		void LoadGameScreens();
+
+		std::vector<Components::Game::Player> players;
 		
 		
 
@@ -75,6 +78,10 @@ namespace TanksGame {
 
 		sf::RenderWindow & GetWindow() {
 			return window;
+		}
+
+		std::vector<Components::Game::Player> & GetPlayers() {
+			return players;
 		}
 
 
