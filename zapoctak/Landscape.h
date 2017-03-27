@@ -94,7 +94,7 @@ namespace TanksGame {
 				virtual std::string Type() override {
 					return "Landscape";
 				}
-				virtual void CollideWith(GameBaseComponent & component) override {
+				virtual void CollideWith(GameBaseComponent * component) override {
 					//may write landscape destruction and modification after contact with other objects
 				}
 			};

@@ -13,24 +13,21 @@ namespace TanksGame {
 	namespace Components {
 		namespace Game {
 
-			class FireballFactory {
-
-			};
-
-
 			class Fireball : public GameBaseComponent {
 				using Pointf = BasicStructres::Pointf;
 			private:
 				Pointf pos;
 				Pointf move_vector;
-				sf::Clock clock; 
 				sf::Time last_calculated_position_time;
 				double weight = 10; 
+				int damage;
+				int current_iteration = 0;
+				int crash_iteration;
 				std::array<int, TanksAppManager::scr_width + 1> collision_arr;
 				Pointf collision_point;
 				GameBaseComponent * colliding_object = NULL;
 				std::string identifier;
-
+				std::unique_ptr<sf::Shape> shape;
 				Pointf CalculateNewPosition() {
 
 					float v_x = move_vector.X/10;
@@ -44,7 +41,6 @@ namespace TanksGame {
 					move_vector.Y *= manager.env.resistance;
 					move_vector.X *= manager.env.resistance;
 
-					clock.restart();
 
 					return new_pos;
 				}
@@ -53,22 +49,24 @@ namespace TanksGame {
 					auto move_vector_backup = move_vector;
 					auto pos_backup = pos;
 					auto pos_before = Pointf(pos);
-
+					int number_of_iterations = 0;
 					while (true) {
 						pos = CalculateNewPosition();
-
+						number_of_iterations++;
 						if (pos.Y > TanksAppManager::scr_height || pos.X < 0 || pos.X > TanksAppManager::scr_width) {
 							collision_point = Pointf( (pos.X<0)? -1 : 1, 0);
 							colliding_object = NULL;
 							break;
 						}
+						bool switched = false;
 						if (enviroment_collision_line[pos.X].first <= pos.Y) {
 							//Calculate exact point of collision - count line between pos_before and pos and then compare point by point with enviroment_collisoin_line
-
+					
 							if (pos_before.X > pos.X) {
 								auto a = pos_before;
 								pos_before = pos;
 								pos = a;
+								switched = true;
 							}							
 
 
@@ -87,37 +85,28 @@ namespace TanksGame {
 							}
 						}
 						
-
-						pos_before = pos;
+						
+						pos_before = (switched)? pos_before : pos;
 					}
 					break_while:
 					pos = pos_backup;
 					move_vector = move_vector_backup;
+					crash_iteration = number_of_iterations+1;
 				}
 			public:
+				int owner_player_id;
 				// Inherited via GameBaseComponent
 				virtual void Render() override {
 					Pointf new_point = CalculateNewPosition();
-					
+					current_iteration++;
 
-					sf::RectangleShape ball(sf::Vector2f(10, 10));
-					
-					ball.setPosition(sf::Vector2f(new_point.X-5, new_point.Y-5));
-					ball.setFillColor(sf::Color::Black);
-
-					window.draw(ball);
+					(*shape).setPosition(sf::Vector2f(new_point.X - shape->getLocalBounds().width/2, new_point.Y - shape->getLocalBounds().height / 2));
+					window.draw(*shape);
 					
 					//if colided
-					if ( 
-						(((new_point.X - collision_point.X) <= 1) && ((pos.X - collision_point.X) >= -1) && ((new_point.Y - collision_point.Y) <= 1) && ((pos.Y - collision_point.Y) >= -1)) ||
-						(((new_point.X - collision_point.X) <= 1) && ((pos.X - collision_point.X) >= -1) && ((new_point.Y - collision_point.Y) >= -1) && ((pos.Y - collision_point.Y) <= 1)) ||
-						(((new_point.X - collision_point.X) >= -1) && ((pos.X - collision_point.X) <= 1) && ((new_point.Y - collision_point.Y) <= 1) && ((pos.Y - collision_point.Y) >= -1)) ||
-						(((new_point.X - collision_point.X) >= -1) && ((pos.X - collision_point.X) <= 1) && ((new_point.Y - collision_point.Y) >= -1) && ((pos.Y - collision_point.Y) <= 1)) ||
-						( (new_point.X < 0)) ||
-						((new_point.X > app_mngr.scr_width))
-					) {
+					if ( current_iteration == crash_iteration) {
 						if(colliding_object!=NULL)
-							colliding_object->CollideWith(*this);
+							colliding_object->CollideWith(this);
 
 						manager.SetCurrentStatus( GameManager::GameStatusEnum::player_move );
 
@@ -134,15 +123,47 @@ namespace TanksGame {
 						i = INT_MAX;
 					return collision_arr;
 				};
-				Fireball(TanksAppManager & app_mngr, GameManager & game_manager, Pointf start, Pointf move_vector, std::string && identifier) :GameBaseComponent(app_mngr, game_manager), pos{ start }, move_vector{ move_vector }, identifier{ identifier } {
-					InitCollisions();
-					clock.restart(); 
-				};
+				Fireball(TanksAppManager & app_mngr, GameManager & game_manager, Pointf start, Pointf move_vector, std::string && identifier, std::string spiece, int owner_player_id) :GameBaseComponent(app_mngr, game_manager), pos{ start }, move_vector{ move_vector }, identifier{ identifier }, owner_player_id{ owner_player_id } {
 
+					if (spiece == "small-missile") {
+						damage = 10;
+						weight = 10;
+						sf::RectangleShape ball(sf::Vector2f(5, 10));
+						ball.setFillColor(sf::Color::Black);
+						shape = std::make_unique<sf::RectangleShape>(std::move(ball));
+					}
+					else if (spiece == "large-missile") {
+						damage = 20;
+						weight = 20;
+						sf::RectangleShape ball(sf::Vector2f(10, 20));
+						ball.setFillColor(sf::Color::Black);
+						shape = std::make_unique<sf::RectangleShape>(std::move(ball));
+					}
+					else if (spiece == "atom-bomb") {
+						damage = 50;
+						weight = 30;
+						sf::CircleShape ball(10);
+						ball.setFillColor(sf::Color::Red);
+						shape = std::make_unique<sf::CircleShape>(std::move(ball));
+					}
+					else if (spiece == "nitrogen-bomb") {
+						damage = 100;
+						weight = 40;
+						sf::CircleShape ball(15);
+						ball.setFillColor(sf::Color::Red);
+						shape = std::make_unique<sf::CircleShape>(std::move(ball));
+					}
+					InitCollisions();
+
+				}
+
+				int & getDamage() {
+					return damage;
+				}
 				virtual std::string Type() override {
 					return "Fireball";
 				}
-				virtual void CollideWith(GameBaseComponent & component) override {}
+				virtual void CollideWith(GameBaseComponent * component) override {}
 
 			};
 		}

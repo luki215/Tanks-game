@@ -167,9 +167,12 @@
     <ClInclude Include="MainScreen.h" />
     <ClInclude Include="NewGameScreen.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ProgressBarLargeHorizontal.h" />
+    <ClInclude Include="ProgressBarVertical.h" />
     <ClInclude Include="Tank.h" />
     <ClInclude Include="TankProperties.h" />
     <ClInclude Include="TanksAppManager.h" />
+    <ClInclude Include="TankSettingsScreen.h" />
     <ClInclude Include="TextComponent.h" />
   </ItemGroup>
   <ItemGroup>

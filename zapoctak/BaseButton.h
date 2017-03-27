@@ -97,7 +97,7 @@ namespace TanksGame {
 					btn_text.setCharacterSize(position.SizeY/2);
 
 					btn_text.setFillColor(text_color);
-					btn_text.setPosition(position.PosX + position.SizeX / 2 - btn_text.getLocalBounds().width/2, position.PosY + position.SizeY / 2 - btn_text.getLocalBounds().height/2 );
+					btn_text.setPosition(position.PosX + position.SizeX / 2 - btn_text.getLocalBounds().width/2, position.PosY + position.SizeY / 2 - btn_text.getLocalBounds().height*2/3 );
 					window.draw(rectangle);
 					window.draw(btn_text);
 

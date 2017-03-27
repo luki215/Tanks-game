@@ -13,6 +13,7 @@ namespace TanksGame {
 				std::string name;
 				TankProperties tank;
 				int money;
+				bool lost = false;
 				Player(std::string name, TankProperties tank_prop, int money) : name{ name }, tank{ tank_prop }, money{ money } {};
 			};
 		}

@@ -7,47 +7,54 @@
 #include "TanksAppManager.h"
 #include "BaseComponent.h"
 #include "BaseButton.h"
+#include "TextComponent.h"
 #include "Landscape.h"
 #include "Tank.h"
 #include <map>
 #include <memory>
 #include "GameManager.h"
 
+#include "ProgressBarVertical.h"
 namespace TanksGame {
 	namespace Screens {
-
-		/*TODO: New class player, it has property TankProperties, where all tank settings of player will be stored. pointer to this var will be sent to each tank instance
-			and then in HandleEvent tank components will be checked, if they belong to current player. 
-
-			Then these settings save to file. 
-			
-		*/
 
 		class GameScreen : public GameScreenable {
 		private:
 			TanksGame::TanksAppManager & app_mngr;
 			sf::RenderWindow & window;
-			GameManager manager{};
+			GameManager manager{app_mngr};
+
+			std::vector<std::unique_ptr<Components::BaseComponent>> components;
+
 			void InitializeComponents() {				
 				manager.InsertComponent("landscape", std::make_unique<Components::Game::Landscape>(app_mngr, manager));
 
-				auto tank_1_prop = Components::Game::TankProperties{1, 100};
-				tank_1_prop.player = 1;
-				tank_1_prop.color = 0x000000;
-				tank_1_prop.init_x_position = 30;
-				tank_1_prop.fireballs.emplace("Small", 30);
-				tank_1_prop.health = 100;
-				tank_1_prop.max_fuel = 100;
-				tank_1_prop.max_speed = 2;
-				tank_1_prop.max_strength = 100;
 
-				auto tank_2_prop = tank_1_prop;
-				tank_2_prop.player = 2;
-				tank_2_prop.init_x_position = 900;
-				tank_2_prop.color = 0xff0000;
 
-				manager.InsertComponent("tank", std::make_unique<Components::Game::Tank>(app_mngr, manager, tank_1_prop));
-				manager.InsertComponent("tank2", std::make_unique<Components::Game::Tank>(app_mngr, manager, tank_2_prop));
+				int i = 0;
+				for (auto && player : app_mngr.GetPlayers()) {
+					manager.InsertComponent("tank_" + player.name, std::make_unique<Components::Game::Tank>(app_mngr, manager, player.tank));
+					
+					components.emplace_back(std::make_unique<Components::Others::TextComponent>(app_mngr, player.name + ":", BasicStructres::SizeAndPos(20 + i *600, 30, 20, 20), &player.tank.color));
+					components.emplace_back(std::make_unique<Components::Others::TextComponent>(app_mngr, "Health", BasicStructres::SizeAndPos(160 + i *600, 5, 20, 10), BasicStructres::Color{ 0x000000 }));
+					components.emplace_back( std::make_unique<Components::Others::ProgressBarVertical>(app_mngr,  BasicStructres::SizeAndPos(170 + i*600, 20, 30, 50), BasicStructres::Color{ 0xbf0303 }, player.tank.health, player.tank.max_health  ));
+				
+					components.emplace_back(std::make_unique<Components::Others::TextComponent>(app_mngr, "Strength", BasicStructres::SizeAndPos(210 + i *600, 5, 20, 10), BasicStructres::Color{ 0x000000 }));
+					components.emplace_back(std::make_unique<Components::Others::ProgressBarVertical>(app_mngr, BasicStructres::SizeAndPos(220 + i *600, 20, 30, 50), BasicStructres::Color{ 0x007f10 }, player.tank.current_strength, player.tank.max_strength));
+
+					components.emplace_back(std::make_unique<Components::Others::TextComponent>(app_mngr, "Fuel", BasicStructres::SizeAndPos(273 + i *600, 5, 20, 10), BasicStructres::Color{ 0x000000 }));
+					components.emplace_back(std::make_unique<Components::Others::ProgressBarVertical>(app_mngr, BasicStructres::SizeAndPos(270 + i *600, 20, 30, 50), BasicStructres::Color{ 0x002e7f }, player.tank.fuel, player.tank.max_fuel));
+
+					components.emplace_back(std::make_unique<Components::Others::TextComponent>(app_mngr, "Ammo", BasicStructres::SizeAndPos(403 + i *600, 5, 20, 10), BasicStructres::Color{ 0x000000 }));
+					components.emplace_back(std::make_unique<Components::Others::TextComponent>(app_mngr, &player.tank.current_fireball, BasicStructres::SizeAndPos(320 + i * 600, 25, 20, 15), BasicStructres::Color{ 0x000000 }));
+					components.emplace_back(std::make_unique<Components::Others::TextComponent>(app_mngr, &player.tank.current_fireball_count, BasicStructres::SizeAndPos(460 + i * 600, 25, 20, 15), BasicStructres::Color{ 0x000000 }));
+
+
+					i++;
+				}
+
+
+
 			}
 
 		public:
@@ -63,6 +70,9 @@ namespace TanksGame {
 							break;
 					}
 					i++;
+				}
+				for (auto && component : components) {
+					component->Render();
 				}
 			};
 			virtual void HandleEvent(sf::Event & e) override {

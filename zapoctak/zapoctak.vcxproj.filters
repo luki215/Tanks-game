@@ -28,9 +28,6 @@
     <Filter Include="Header Files\Components\Game">
       <UniqueIdentifier>{ecb2a673-3e07-4fd4-a440-17652f6b4937}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Components\ProgressBars">
-      <UniqueIdentifier>{4327a052-9d57-4649-85d3-544bcb70ca51}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Components\Others">
       <UniqueIdentifier>{29a06fa2-b2bf-477a-8cf9-93d070af9c06}</UniqueIdentifier>
     </Filter>
@@ -100,6 +97,15 @@
     </ClInclude>
     <ClInclude Include="TankProperties.h">
       <Filter>Header Files\Components\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="TankSettingsScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressBarLargeHorizontal.h">
+      <Filter>Header Files\Components\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressBarVertical.h">
+      <Filter>Header Files\Components\Others</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

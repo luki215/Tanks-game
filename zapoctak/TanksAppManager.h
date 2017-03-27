@@ -15,7 +15,7 @@
 namespace TanksGame {
 
 	//Game can't be in invalid status, invalid is just default value
-	enum class AppStatusEnum{main_screen, help, load_game, new_game, tanks_settings, game, invalid};
+	enum class AppStatusEnum{main_screen, help, load_game, save_game, new_game, tanks_settings, game, invalid};
 
 	class TanksAppManager {
 		using screen_ptr = std::unique_ptr<Screens::GameScreenable>;
@@ -75,6 +75,8 @@ namespace TanksGame {
 
 			}
 		}
+
+		
 
 		sf::RenderWindow & GetWindow() {
 			return window;
