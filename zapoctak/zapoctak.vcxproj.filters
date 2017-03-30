@@ -107,6 +107,12 @@
     <ClInclude Include="ProgressBarVertical.h">
       <Filter>Header Files\Components\Others</Filter>
     </ClInclude>
+    <ClInclude Include="SaveGameScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadGameScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="font.ttf" />

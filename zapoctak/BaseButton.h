@@ -47,6 +47,7 @@ namespace TanksGame {
 				using SizeAndPos = BasicStructres::SizeAndPos;
 			protected:
 				std::string text = "Button";
+				std::string * dynamic_text = NULL;
 				std::function<void()> action;
 				SizeAndPos position = SizeAndPos{ 0,0,80,30 };
 				Color background = Color{ 0xd3, 0xd3, 0xd3 };
@@ -92,8 +93,11 @@ namespace TanksGame {
 
 					// select the font
 					btn_text.setFont(font);  
+					if(dynamic_text == NULL)
+						btn_text.setString(text);
+					else
+						btn_text.setString(*dynamic_text);
 
-					btn_text.setString(text);
 					btn_text.setCharacterSize(position.SizeY/2);
 
 					btn_text.setFillColor(text_color);
@@ -115,7 +119,13 @@ namespace TanksGame {
 						throw CannotLoadFontException("font.ttf");
 					}
 				};
+				BaseButton(TanksAppManager & app_mngr, std::function<void()> onclick_action, std::string * text, SizeAndPos position, Color background, Color text_color) :BaseComponent(app_mngr), action{ onclick_action }, dynamic_text{ text }, position{ position }, background{ background }, text_color{ text_color } {
 
+					if (!font.loadFromFile("font.ttf"))
+					{
+						throw CannotLoadFontException("font.ttf");
+					}
+				};
 
 			};
 		}

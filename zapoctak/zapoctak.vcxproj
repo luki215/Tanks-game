@@ -164,11 +164,13 @@
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GameScreenable.h" />
     <ClInclude Include="Landscape.h" />
+    <ClInclude Include="LoadGameScreen.h" />
     <ClInclude Include="MainScreen.h" />
     <ClInclude Include="NewGameScreen.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ProgressBarLargeHorizontal.h" />
     <ClInclude Include="ProgressBarVertical.h" />
+    <ClInclude Include="SaveGameScreen.h" />
     <ClInclude Include="Tank.h" />
     <ClInclude Include="TankProperties.h" />
     <ClInclude Include="TanksAppManager.h" />

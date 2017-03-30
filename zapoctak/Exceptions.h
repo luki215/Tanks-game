@@ -27,6 +27,12 @@ namespace TanksGame {
 	public:
 		CannotLoadFontException(std::string font) : TanksException("Cannot load font: "+ font) {}
 	};
+
+	class  CannotLoadFileException : public TanksException {
+		public:
+			CannotLoadFileException(std::string font) : TanksException("Cannot load font: " + font) {}
+	
+	};
 }
 
 

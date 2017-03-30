@@ -86,6 +86,10 @@ namespace TanksGame {
 						properties.fireballs.find(properties.current_fireball)->second.first--;
 						properties.current_fireball_count--;
 					}
+					else {
+						manager.SetCurrentStatus(GameManager::GameStatusEnum::shot);
+						manager.SetCurrentStatus(GameManager::GameStatusEnum::player_move);
+					}
 				}
 
 				sf::Transform getCanonTransform() {
@@ -152,6 +156,12 @@ namespace TanksGame {
 
 				virtual void ProcessEvent(sf::Event & e) override {
 					if ((manager.CurrentPlayer() == properties.player) && (manager.CurrentStatus() == GameManager::GameStatusEnum::player_move)) {
+						if (e.type == sf::Event::KeyReleased) {
+							if (e.key.code == (sf::Keyboard::Space)) {
+								Fire();
+								e.key.code = sf::Keyboard::Unknown;
+							}
+						}
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 							if (canon_angle >= -88)
 								canon_angle -= 2;
@@ -166,9 +176,7 @@ namespace TanksGame {
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 							MoveRight();
 						}
-						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-							Fire();
-						}
+						
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp)) {
 							if (properties.current_strength < properties.max_strength)
 								properties.current_strength++;

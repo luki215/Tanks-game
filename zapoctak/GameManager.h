@@ -52,8 +52,9 @@ namespace TanksGame {
 
 		GameStatusEnum CurrentStatus() { return current_status; }
 		void SetCurrentStatus(GameStatusEnum status) {
-			if (status == GameStatusEnum::player_move)
-				current_player = ((current_player+1) % players_count);
+			if (status == GameStatusEnum::player_move) {
+				current_player = ((current_player + 1) % players_count);
+			}
 			current_status = status;
 		}
 		uint_least8_t CurrentPlayer() const {
@@ -65,7 +66,15 @@ namespace TanksGame {
 		void PlayerLost(int player, int shooter) {
 			auto && players = app_mngr.GetPlayers();
 			
-			players[shooter].money += 10000;
+			if(player != shooter)
+				players[shooter].money += 10000;
+			else
+			{
+				for (auto && player : players) {
+					if (player.tank.player != shooter)
+						player.money += 10000;
+				}
+			}
 
 
 			for (auto && player : players) {
