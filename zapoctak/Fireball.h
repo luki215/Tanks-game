@@ -126,14 +126,14 @@ namespace TanksGame {
 				Fireball(TanksAppManager & app_mngr, GameManager & game_manager, Pointf start, Pointf move_vector, std::string && identifier, std::string spiece, int owner_player_id) :GameBaseComponent(app_mngr, game_manager), pos{ start }, move_vector{ move_vector }, identifier{ identifier }, owner_player_id{ owner_player_id } {
 
 					if (spiece == "small-missile") {
-						damage = 10;
+						damage = 15;
 						weight = 10;
 						sf::RectangleShape ball(sf::Vector2f(5, 10));
 						ball.setFillColor(sf::Color::Black);
 						shape = std::make_unique<sf::RectangleShape>(std::move(ball));
 					}
 					else if (spiece == "large-missile") {
-						damage = 20;
+						damage = 25;
 						weight = 20;
 						sf::RectangleShape ball(sf::Vector2f(10, 20));
 						ball.setFillColor(sf::Color::Black);

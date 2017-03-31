@@ -113,6 +113,9 @@
     <ClInclude Include="LoadGameScreen.h">
       <Filter>Header Files\Screens</Filter>
     </ClInclude>
+    <ClInclude Include="HelpScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="font.ttf" />

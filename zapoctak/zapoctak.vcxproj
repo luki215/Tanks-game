@@ -163,6 +163,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GameScreenable.h" />
+    <ClInclude Include="HelpScreen.h" />
     <ClInclude Include="Landscape.h" />
     <ClInclude Include="LoadGameScreen.h" />
     <ClInclude Include="MainScreen.h" />

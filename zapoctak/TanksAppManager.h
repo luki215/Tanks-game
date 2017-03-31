@@ -39,7 +39,7 @@ namespace TanksGame {
 		void LoadSavingSlots() {
 			for (int i = 0; i < 10; i++)
 			{
-				std::ifstream f("game-" + std::to_string(i) + ".dat");
+				std::ifstream f("game-" + std::to_string(i) + ".save");
 				if (f.good()) {
 					std::getline(f, saving_slots[i]);
 				}
@@ -88,6 +88,13 @@ namespace TanksGame {
 		}
 
 		void SwitchGameStatusTo(AppStatusEnum status) {
+			if (status == AppStatusEnum::new_game) {
+				for (auto && player : players) {
+					player.tank.HardRestart();
+					player.money = 10000;
+				}
+
+			}
 			if (status != AppStatusEnum::invalid) {
 				this->status = status;
 				current_screen = screens.at(status).get();
@@ -97,7 +104,7 @@ namespace TanksGame {
 
 
 		void SaveGame(int slot) {
-			std::ofstream save_file("game-"+std::to_string(slot)+".dat");
+			std::ofstream save_file("game-"+std::to_string(slot)+".save");
 			if (save_file.good()) {
 				time_t t = time(0);   // get time now
 				struct tm * now = localtime(&t);
@@ -131,11 +138,10 @@ namespace TanksGame {
 			LoadSavingSlots();
 		}
 		void LoadGame(int slot) {
-			std::ifstream load_file("game-" + std::to_string(slot) + ".dat");
+			std::ifstream load_file("game-" + std::to_string(slot) + ".save");
 
 			if (load_file.good()) {
 				std::string em;
-				std::getline(load_file, em);
 				while (true) {
 					if (!load_file.good()) {
 							break;

@@ -26,7 +26,7 @@ namespace TanksGame {
 				std::string current_fireball;
 				int current_fireball_count;
 			public:
-				TankProperties(uint_least8_t player, s_uint x_position) :player{ player }, max_health{ 100 }, health{ 100 }, max_fuel{ 100 }, fuel{ 100 }, max_speed{ 2 }, max_strength{ 30 }, current_strength{ 15 }, color{ BasicStructres::Color{ 0x000000 } }, init_x_position{ x_position }, fireballs{ std::map<std::string, std::pair<int,int>>{} } {
+				TankProperties(uint_least8_t player, s_uint x_position) :player{ player }, max_health{ 100 }, health{ 100 }, max_fuel{ 100 }, fuel{ 100 }, max_speed{ 2 }, max_strength{ 25 }, current_strength{ 15 }, color{ BasicStructres::Color{ 0x000000 } }, init_x_position{ x_position }, fireballs{ std::map<std::string, std::pair<int,int>>{} } {
 					fireballs.emplace("small-missile", std::pair<int, int>{50, 100});
 					fireballs.emplace("large-missile", std::pair<int, int>{0, 500});
 					fireballs.emplace("atom-bomb", std::pair<int, int>{0, 5000});
@@ -37,6 +37,22 @@ namespace TanksGame {
 				void Restart() {
 					health = max_health;
 					current_strength = max_strength / 2;
+				}
+				void HardRestart() {
+					fireballs.at("small-missile").first = 50;
+					fireballs.at("large-missile").first = 0;
+					fireballs.at("atom-bomb").first = 0;
+					fireballs.at("nitrogen-bomb").first = 0;
+					current_fireball = "small-missile";
+					current_fireball_count = 50;
+					max_health = 100;
+					health = 100;
+					max_fuel = 100;
+					fuel = 100;
+					max_speed = 2;
+					max_strength = 50;
+					current_strength = 25;
+					color = BasicStructres::Color{ 0x000000 };
 				}
 			};
 		}

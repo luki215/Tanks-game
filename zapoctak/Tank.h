@@ -252,7 +252,7 @@ namespace TanksGame {
 					if (component->Type() == "Fireball") {
 						Fireball * fireball = (dynamic_cast<Fireball*>(component));
 						properties.health -= fireball->getDamage();
-						if (properties.health <= 0) {
+						if (properties.health <= 0 || properties.health > properties.max_health) {
 							manager.PlayerLost(properties.player, fireball->owner_player_id);
 							InitPosition();
 						}

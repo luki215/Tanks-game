@@ -51,8 +51,9 @@ namespace TanksGame {
 		public:
 			NewGameScreen(TanksGame::TanksAppManager & game_manager) :BasicStaticScreen(game_manager) {
 				auto && players = game_manager.GetPlayers();
+				players.clear();
 				players.emplace_back(Components::Game::Player{ "Player 1", Components::Game::TankProperties{0, 100}, 10000 });
-				players.emplace_back(Components::Game::Player{ "Player 2", Components::Game::TankProperties{1, 200}, 10000 });
+				players.emplace_back(Components::Game::Player{ "Player 2", Components::Game::TankProperties{1, 900}, 10000 });
 				
 				InitializeComponents();
 			}

@@ -6,7 +6,7 @@
 #include "TankSettingsScreen.h"
 #include "SaveGameScreen.h"
 #include "LoadGameScreen.h"
-
+#include "HelpScreen.h"
 void TanksGame::TanksAppManager::LoadGameScreens()
 {
 	screens.emplace(AppStatusEnum::main_screen, std::make_unique<Screens::MainScreen>(*this));
@@ -15,4 +15,5 @@ void TanksGame::TanksAppManager::LoadGameScreens()
 	screens.emplace(AppStatusEnum::game, std::make_unique<Screens::GameScreen>(*this));
 	screens.emplace(AppStatusEnum::save_game, std::make_unique<Screens::SaveGameScreen>(*this));
 	screens.emplace(AppStatusEnum::load_game, std::make_unique<Screens::LoadGameScreen>(*this));
+	screens.emplace(AppStatusEnum::help, std::make_unique<Screens::HelpScreen>(*this));
 }
